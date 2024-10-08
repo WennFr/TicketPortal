@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiljettPortalen.RestApi", "BiljettPortalen.RestApi\BiljettPortalen.RestApi.csproj", "{A4312E81-B8AF-4C86-93A0-EA743FC4FFAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketPortal.RestApi", "TicketPortal.RestApi\TicketPortal.RestApi.csproj", "{A4312E81-B8AF-4C86-93A0-EA743FC4FFAD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{092BDC40-4FBF-4CD8-B265-0F14CAF97065}"
 EndProject

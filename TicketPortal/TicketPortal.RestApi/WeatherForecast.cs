@@ -1,4 +1,4 @@
-namespace BiljettPortalenServer.RestApi
+namespace TicketPortal.RestApi
 {
     public class WeatherForecast
     {
