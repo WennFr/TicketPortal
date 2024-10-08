@@ -1,6 +1,7 @@
+using BiljettPortalenServer.RestApi;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BiljettPortalenServer.RestApi.Controllers
+namespace BiljettPortalen.RestApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
