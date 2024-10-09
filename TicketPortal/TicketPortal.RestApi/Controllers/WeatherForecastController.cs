@@ -1,6 +1,5 @@
 using TicketPortal.RestApi;
 using Microsoft.AspNetCore.Mvc;
-
 namespace TicketPortal.RestApi.Controllers
 {
     [ApiController]
