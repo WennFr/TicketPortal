@@ -4,6 +4,9 @@ using MailKit.Search;
 using MailKit.Security;
 using MailKit.Net.Imap;
 using Microsoft.AspNetCore.Mvc;
+using Application.DTOs;
+using Infrastructure.Services.Interfaces;
+using Application.Factories;
 
 
 namespace TicketPortal.RestApi.Controllers
@@ -12,30 +15,22 @@ namespace TicketPortal.RestApi.Controllers
     [Route("[controller]")]
     public class EmailController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult GetMessages()
+        private readonly IEmailService _emailService;
+
+        public EmailController(IEmailService emailService)
         {
-            using (var client = new ImapClient(new ProtocolLogger("imap.log")))
-            {
-                client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
-
-                client.Authenticate("a.biljettportalen@gmail.com", "bqwa avyb vjry ruwe");
-
-                client.Inbox.Open(FolderAccess.ReadOnly);
-
-                var uids = client.Inbox.Search(SearchQuery.All);
-
-                foreach (var uid in uids)
-                {
-                    var message = client.Inbox.GetMessage(uid);
-                }
-
-                client.Disconnect(true);
-
-                return Ok();
-            }
+            _emailService = emailService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<MessageDto>>> GetAllMessages()
+        {
+            var mimeMessages = await _emailService.GetTicketMessagesFromTicketAccount();
+
+            var messages = mimeMessages.Select(x => MessageFactory.CreateMessage(x));
+
+            return Ok(messages);
+        }
 
 
     }
