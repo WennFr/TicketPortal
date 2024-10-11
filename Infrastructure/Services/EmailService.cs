@@ -60,7 +60,6 @@ namespace Infrastructure.Services
 
             string newText = rgx.Replace(originalText,"<p>Här är din efterskänkta årskortsbiljett via Allmänna Biljett Portalen.</p>", 1);
 
-
             return newText;
         }
 
