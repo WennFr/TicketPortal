@@ -12,6 +12,9 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Net;
+using Application.DTOs;
+using Application.Enums;
 
 namespace Infrastructure.Services
 {
@@ -58,10 +61,43 @@ namespace Infrastructure.Services
             string pattern = @"<p>.*?</p>";
             Regex rgx = new Regex(pattern);
 
-            string newText = rgx.Replace(originalText,"<p>Här är din efterskänkta årskortsbiljett via Allmänna Biljett Portalen.</p>", 1);
+            string newText = rgx.Replace(originalText, "<p>Här är din efterskänkta årskortsbiljett via Allmänna Biljett Portalen.</p>", 1);
 
             return newText;
         }
+
+        public StatusMessage SendTicketMessage(MessageDto message, string toEmailAddress)
+        {
+            var fromEmailAddress = "a.biljettportalen@gmail.com";
+
+            MailMessage mailMessage = new MailMessage(fromEmailAddress, toEmailAddress);
+            mailMessage.From = new MailAddress(fromEmailAddress);
+            mailMessage.To.Add(toEmailAddress);
+            mailMessage.Subject = message.Subject;
+            mailMessage.Body = message.Body;
+
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.Port = 587;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential(fromEmailAddress, "bqwa avyb vjry ruwe");
+            smtpClient.EnableSsl = true;
+
+            try
+            {
+                smtpClient.Send(mailMessage);
+                return StatusMessage.Success;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return StatusMessage.Error;
+
+        }
+
+
 
 
 

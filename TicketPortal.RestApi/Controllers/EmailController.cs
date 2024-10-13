@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Application.DTOs;
 using Infrastructure.Services.Interfaces;
 using Application.Factories;
+using Application.Enums;
 
 
 namespace TicketPortal.RestApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EmailController : ControllerBase
     {
         private readonly IEmailService _emailService;
@@ -23,13 +24,28 @@ namespace TicketPortal.RestApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<MessageDto>>> GetAllMessages()
+        [Route("Get")]
+        public async Task<ActionResult<List<MessageDto>>> GetAllTicketMessages()
         {
             var mimeMessages = await _emailService.GetTicketMessagesFromTicketAccount();
 
             var messages = mimeMessages.Select(x => MessageFactory.CreateMessage(x));
 
             return Ok(messages);
+        }
+
+        [HttpPost]
+        [Route("Send")]
+        public ActionResult PostTicketMessageToUser(MessageDto message, string toEmailAddress)
+        {
+            var status = _emailService.SendTicketMessage(message, toEmailAddress);
+
+            if (status == StatusMessage.Success)
+                return Ok(message);
+
+            else
+                return BadRequest(status);
+
         }
 
 
